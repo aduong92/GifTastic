@@ -6,33 +6,34 @@
     <title>Animal Buttons</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style type="text/css">
-    
         button {
             margin: 3px;
-          padding-left: 15px;
-          padding-right: 15px;
-          cursor: pointer;
-          border-radius: 8px;
-          text-decoration: none;
-          background-color: #59A1BA;
-          color: white;
-          box-shadow: none;
+            padding-left: 15px;
+            padding-right: 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            text-decoration: none;
+            background-color: #59A1BA;
+            color: white;
+            box-shadow: none;
         }
-        #add-animal{
-        margin-top: 10px;
-          padding-left: 20px;
-          padding-right: 20px;
-          cursor: pointer;
-          border-radius: 8px;
-          text-decoration: none;
-          background-color: #59A1BA;
-          color: white;
-          box-shadow: none;
+
+        #add-animal {
+            margin-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            text-decoration: none;
+            background-color: #59A1BA;
+            color: white;
+            box-shadow: none;
         }
-        #animal-input{
-            width:400px;
+
+        #animal-input {
+            width: 400px;
         }
-      </style>
+    </style>
 </head>
 
 <body>
@@ -65,40 +66,40 @@
             "unicorn", "horse", "wolf", "hedgehog", "honeybadger", "octopus", "deer", "rat", "platypus"];
         function renderButtons() {
 
-          
+
             $("#buttons-view").empty();
 
-            
+
             for (var i = 0; i < animals.length; i++) {
 
-                
+
                 var a = $("<button>");
                 a.addClass("animal-btn");
-               
+
                 a.attr("data-animal", animals[i]);
-               
+
                 a.text(animals[i]);
-               
+
                 $("#buttons-view").append(a);
             }
         }
 
-        
+
         $("#add-animal").on("click", function (event) {
             event.preventDefault();
-           
+
             var animal = $("#animal-input").val().trim();
 
-            
+
             animals.push(animal);
 
-           
+
             renderButtons();
         });
 
-       
+
         $(document).on("click", ".animal-btn", displayAnimals);
- 
+
         renderButtons();
 
 
@@ -112,7 +113,7 @@
                 url: queryURL,
                 method: "GET"
             }).then(function (response) {
-               
+
 
                 console.log(response);
 
@@ -120,24 +121,24 @@
 
                 for (var i = 0; i < results.length; i++) {
 
-                    
+
                     var animalDiv = $("<div>");
                     animalDiv.attr('style', 'padding:5px;');
 
                     var rating = results[i].rating;
                     var p = $("<p>").text("Rating: " + rating);
-                   
+
                     var animalImage = $('<img>');
                     animalImage.addClass("gif");
-                  
+
                     animalImage.attr("src", results[i].images.fixed_height_still.url);
                     animalImage.attr("data-animate", results[i].images.fixed_height.url);
                     animalImage.attr("data-state", "still");
                     animalImage.attr("data-still", results[i].images.fixed_height_still.url);
-                    
+
 
                     animalDiv.prepend(p, animalImage);
-             
+
                     $('#gifs-appear-here').prepend(animalDiv);
 
                 }
@@ -149,19 +150,15 @@
 
         function animate() {
 
-            var gifButton = $(this);
 
-            console.log(gifButton);
+            var state = $(this).attr('data-state');
 
-            var state = gifButton.attr('data-state');
-
-            if (state === 'still') {
-                gifButton.attr('src', gifButton.attr('data-animate'));
-                gifButton.attr('data-state', gifButton.attr('animate'));
-            }
-            if (state === 'animate') {
-                gifButton.attr("src", gifButton.attr("data-still"));
-                gifButton.attr('data-state', gifButton.attr('still'));
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
             }
 
         };
